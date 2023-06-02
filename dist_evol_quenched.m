@@ -1,7 +1,7 @@
 clearvars; clc; close all;
 
 % model parameters
-N0 = 30;    % number of social learners
+N0 = 90;    % number of social learners
 N1 = 10;    % number of individual learners
 N = N0+N1;  % number of all learners
 k = -15;
@@ -27,17 +27,7 @@ transition_matrix = get_tran_m_quenched(q, k, s, N0, N1);
 % evolution of probability distibution
 dist = transition_matrix^t*dist;
 
-dist_a = zeros(1, N+1);
-dist_a0 = zeros(1, N0+1);
-dist_a1 = zeros(1, N1+1);
-
-for i=1:N0+1
-    for j=1:N1+1
-        dist_a(i+j-1) = dist_a(i+j-1)+dist((i-1)*(N1+1)+j);
-        dist_a0(i) = dist_a0(i) + dist((i-1)*(N1+1)+j);
-        dist_a1(j) = dist_a1(j) + dist((i-1)*(N1+1)+j);
-    end
-end
+[dist_a, dist_a0, dist_a1] = get_quenched_dists(dist,N0,N1);
 
 plot(a, dist_a, ':.')   % dist for all learners
 hold on
@@ -55,16 +45,7 @@ dist = zeros((N0+1)*(N1+1),1);
 dist(1) = 1;    % initial state
 for t=1:T
     dist = transition_matrix^N*dist;
-    dist_a = zeros(1,N+1);
-    dist_a0 = zeros(1, N0+1);
-    dist_a1 = zeros(1, N1+1);
-    for i=1:N0+1
-        for j=1:N1+1
-            dist_a(i+j-1)=dist_a(i+j-1)+dist((i-1)*(N1+1)+j);
-            dist_a0(i) = dist_a0(i) + dist((i-1)*(N1+1)+j);
-            dist_a1(j) = dist_a1(j) + dist((i-1)*(N1+1)+j);
-        end
-    end
+    [dist_a,dist_a0,dist_a1] = get_quenched_dists(dist,N0,N1);
 
     plot(a, dist_a, ':.')   % dist for all learners
     hold on
