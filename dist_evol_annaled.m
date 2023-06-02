@@ -30,7 +30,8 @@ ylabel('probability')
 title(['annealed model s=' num2str(s) ' p=' num2str(p) ' q=' num2str(q) ' k=' num2str(k) ' T=' num2str(T)])
 
 % plotting time evolution of probability disitbution
-dist(1) = 1; 
+dist = zeros(N+1,1);
+dist(1) = 1;
 for t=1:T
     dist = transition_matrix^N*dist;
     plot(a, dist,':.')
