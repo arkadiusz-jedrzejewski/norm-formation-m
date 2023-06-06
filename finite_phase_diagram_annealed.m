@@ -21,13 +21,14 @@ for i=1:length(P)
 
     % probability distibution of states
     dist = zeros(N+1,1);
-    dist(N/2) = 1;    % initial state
+    dist(1) = 1;    % initial state
 
     % transition matrix
     transition_matrix = get_tran_m_annealed(p, q, k, s, N);
    
     % evolution of probability distibution
     dist = transition_matrix^t*dist;
+
     a_mean(i) = max(a, 1-a)*dist;
 end
 
