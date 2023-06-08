@@ -1,8 +1,8 @@
 clearvars; clc; close all;
 
 % model parameters
-N0 = 45;    % number of social learners
-N1 = 15;    % number of individual learners
+N0 = 1;    % number of social learners
+N1 = 19;    % number of individual learners
 N = N0+N1;  % number of all learners
 k = -15;
 q = 3;
