@@ -35,9 +35,9 @@ for i=1:length(N1_tab)
     dist = transition_matrix^t*dist;
     [dist_a, dist_a0, dist_a1] = get_quenched_dists(dist, N0, N1);
 
-    a_mean(i) = max(a, 1-a)*dist_a;
-    a0_mean(i) = max(a0, 1-a0)*dist_a0;
-    a1_mean(i) = max(a1, 1-a1)*dist_a1;
+    a_mean(i) = a*dist_a;
+    a0_mean(i) = a0*dist_a0;
+    a1_mean(i) = a1*dist_a1;
 end
 
 end
