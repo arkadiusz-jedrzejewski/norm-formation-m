@@ -10,5 +10,9 @@ pu(stable)=nan;
 plot(ps,a,'k')
 hold on
 plot(pu,a,'--k')
+
+pc = get_critical_point(q,k,s,is_annealed,is_symmetric);
+plot([0,pc],[0.5,0.5],'--k')
+plot([pc,1],[0.5,0.5],'k')
 hold off
 end
