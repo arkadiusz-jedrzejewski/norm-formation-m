@@ -3,7 +3,10 @@ function [stable] = is_stable(a,p,q,k,s,is_annealed,is_symmetric)
 % the model (with Bernoulli distribution in the quenched case)
 if is_annealed
     % annealed case
-    stable = true;
+    dF = -s+(1-s)*(p*(indiv_dfun(a,k)-1)+(1-p)*...
+        ((1-a)*conf_dfun(a,q,is_symmetric)+a*conf_dfun(1-a,q,is_symmetric)-...
+        conf_fun(a,q,is_symmetric)-conf_fun(1-a,q,is_symmetric)));
+    stable = dF<0;
 else
     % quenched case (Bernoulli disitribution if conformity function is
     % non-symmetric)
