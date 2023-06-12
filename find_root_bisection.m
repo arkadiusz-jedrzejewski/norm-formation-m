@@ -4,7 +4,7 @@ function [root] = find_root_bisection(fun,a,b,tol)
 % close to b: abs(b-x)<x_tol where x_tol is tolerance 
 % a root is defined as x for which abs(fun(x))<tol
 
-x_tol = tol*100;
+x_tol = tol*10000;
 
 bf = b;
 fa = fun(a);
@@ -30,7 +30,6 @@ while abs(b-a)>x_tol
 
     if abs(fmid)<tol
         root = mid;
-        abs(root-bf)
         if abs(root-bf)<x_tol
             root=[];
         end
