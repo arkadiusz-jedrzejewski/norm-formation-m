@@ -32,7 +32,7 @@ clearvars; clc; close all;
 % dp = diff(p,a)
 
 K=-40:0.1:-10;
-q=4;
+q=1.1;
 p_up = zeros(1,length(K));
 p_low = zeros(1,length(K));
 p_inf = zeros(1,length(K));
@@ -67,6 +67,29 @@ for i=1:length(p_c)
 end
 figure
 plot(p_inf,dp_s)
+distance_p(q,-30)
+
+Q=[1.001:0.5:8 8];
+Kt = zeros(1,length(Q));
+for i=1:length(Q)
+    Kt(i)=fminsearch(@(x)distance_p(Q(i),x),-32);
+end
+figure
+plot(Q,Kt,'.:')
+
+function diff = distance_p(q,k)
+    tab_a = get_roots(@(x)dp_symmetric(x,q,k),0,0.5,0.001,1e-12);
+    tab_p = conf_fun_sym(tab_a,q,k);
+    if isempty(tab_p)
+        diff = 0;
+    else
+        %[val,it]=max(tab_p);
+        diff = max(tab_p);
+    end
+    pc = 4*(q-1)/(4*q-k);
+    diff = abs(diff - pc);
+end
+
 function dp = dp_symmetric(a,q,k)
     dp = (q*(2*a)^(q - 1) - 1)/((2*a)^q/2 - 1/(exp(-k*(a - 1/2)) + 1)) + ((q*(2*a)^(q - 1) - (k*exp(-k*(a - 1/2)))/(exp(-k*(a - 1/2)) + 1)^2)*(a - (2*a)^q/2))/((2*a)^q/2 - 1/(exp(-k*(a - 1/2)) + 1))^2;
 end
