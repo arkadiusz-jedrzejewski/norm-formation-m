@@ -70,19 +70,8 @@ for i=1:length(p_c)
 end
 
 Q=[1.001:0.05:8 8];
-Kt = zeros(1,length(Q));
-Kst = zeros(1,length(Q));
-
-for i=1:length(Q)
-    Kt(i)=fminsearch(@(x)distance_p(Q(i),x),-32);
-    Kst(i)=fminsearch(@(x)k_star(Q(i),x),-25);
-end
 figure
-plot(Q,Kt,'.:')
-hold on
-plot(Q,Kst,'.:r')
-xlabel('q')
-ylabel('k')
+plot_diagram_kq(Q)
 
 figure(1)
 k_st=fminsearch(@(x)k_star(q,x),-25);
@@ -94,37 +83,17 @@ k_t=fminsearch(@(x)distance_p(q,x),-32);
 p_t= conf_fun_sym(get_roots(@(x)dp_symmetric(x,q,k_t),0,0.5,0.001,1e-12),q,k_t);
 plot(k_t,p_t,'.k')
 
-function error = k_star(q,k)
-% function used for finding a line separating continuous and discontinuous
-% phase transitions
-    a_infl = max(get_roots(@(x)ddp_symmetric(x,q,k),0,0.5,0.001,1e-12));
-    %display(a_infl)
-    error = abs(dp_symmetric(a_infl,q,k));
-end
-
-function diff = distance_p(q,k)
-% function used for finding the line for thich the upper border of
-% matastable reagion coincides with the critical point
-    tab_a = get_roots(@(x)dp_symmetric(x,q,k),0,0.5,0.001,1e-12);
-    tab_p = conf_fun_sym(tab_a,q,k);
-    if isempty(tab_p)
-        diff = 0;
-    else
-        %[val,it]=max(tab_p);
-        diff = max(tab_p);
+function [] = plot_diagram_kq(Q)
+    Kt = zeros(1,length(Q));
+    Kst = zeros(1,length(Q));
+    
+    for i=1:length(Q)
+        Kt(i)=fminsearch(@(x)distance_p(Q(i),x),-32);
+        Kst(i)=fminsearch(@(x)k_star(Q(i),x),-25);
     end
-    pc = 4*(q-1)/(4*q-k);
-    diff = abs(diff - pc);
-end
-
-function dp = dp_symmetric(a,q,k)
-    dp = (q*(2*a)^(q - 1) - 1)/((2*a)^q/2 - 1/(exp(-k*(a - 1/2)) + 1)) + ((q*(2*a)^(q - 1) - (k*exp(-k*(a - 1/2)))/(exp(-k*(a - 1/2)) + 1)^2)*(a - (2*a)^q/2))/((2*a)^q/2 - 1/(exp(-k*(a - 1/2)) + 1))^2;
-end
-
-function p = conf_fun_sym(a,q,k)
-    p = (a-1/2*(2*a).^q)./(indiv_fun(a,k)-1/2*(2*a).^q);
-end
-
-function ddp = ddp_symmetric(a,q,k)
-    ddp = ((a - (2*a)^q/2)*(2*q*(2*a)^(q - 2)*(q - 1) + (k^2*exp(-k*(a - 1/2)))/(exp(-k*(a - 1/2)) + 1)^2 - (2*k^2*exp(-2*k*(a - 1/2)))/(exp(-k*(a - 1/2)) + 1)^3))/((2*a)^q/2 - 1/(exp(-k*(a - 1/2)) + 1))^2 - (2*(q*(2*a)^(q - 1) - (k*exp(-k*(a - 1/2)))/(exp(-k*(a - 1/2)) + 1)^2)^2*(a - (2*a)^q/2))/((2*a)^q/2 - 1/(exp(-k*(a - 1/2)) + 1))^3 - (2*(q*(2*a)^(q - 1) - 1)*(q*(2*a)^(q - 1) - (k*exp(-k*(a - 1/2)))/(exp(-k*(a - 1/2)) + 1)^2))/((2*a)^q/2 - 1/(exp(-k*(a - 1/2)) + 1))^2 + (2*q*(2*a)^(q - 2)*(q - 1))/((2*a)^q/2 - 1/(exp(-k*(a - 1/2)) + 1));
+    plot(Q,Kt,'.:')
+    hold on
+    plot(Q,Kst,'.:r')
+    xlabel('q')
+    ylabel('k')
 end
