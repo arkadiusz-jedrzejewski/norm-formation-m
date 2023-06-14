@@ -69,15 +69,32 @@ figure
 plot(p_inf,dp_s)
 distance_p(q,-30)
 
-Q=[1.001:0.05:8 8];
+Q=[1.001:0.5:8 8];
 Kt = zeros(1,length(Q));
 for i=1:length(Q)
     Kt(i)=fminsearch(@(x)distance_p(Q(i),x),-32);
 end
 figure
 plot(Q,Kt,'.:')
+k=-30
+q
+k_star(q,k)
+k_st=fminsearch(@(x)k_star(q,x),-10)
+figure(1)
+
+c_infl=get_roots(@(x)ddp_symmetric(x,q,k_st),0,0.5,0.001,1e-12);
+p_infl = conf_fun_sym(c_infl,q,k_st);
+plot(k_st,p_infl,'.r')
+function error = k_star(q,k)
+% function used for finding a line separating continuous and discontinuous
+% phase transitions
+    a_infl = get_roots(@(x)ddp_symmetric(x,q,k),0,0.5,0.001,1e-12);
+    error = abs(dp_symmetric(a_infl,q,k));
+end
 
 function diff = distance_p(q,k)
+% function used for finding the line for thich the upper border of
+% matastable reagion coincides with the critical point
     tab_a = get_roots(@(x)dp_symmetric(x,q,k),0,0.5,0.001,1e-12);
     tab_p = conf_fun_sym(tab_a,q,k);
     if isempty(tab_p)
