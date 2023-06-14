@@ -69,7 +69,7 @@ figure
 plot(p_inf,dp_s)
 distance_p(q,-30)
 
-Q=[1.001:0.5:8 8];
+Q=[1.001:0.05:8 8];
 Kt = zeros(1,length(Q));
 for i=1:length(Q)
     Kt(i)=fminsearch(@(x)distance_p(Q(i),x),-32);
