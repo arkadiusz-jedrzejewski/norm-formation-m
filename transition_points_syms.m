@@ -32,7 +32,7 @@ clearvars; clc; close all;
 % dp = diff(p,a)
 
 K=-40:0.1:-10;
-q=1.1;
+q=6;
 p_up = zeros(1,length(K));
 p_low = zeros(1,length(K));
 p_inf = zeros(1,length(K));
@@ -76,19 +76,17 @@ for i=1:length(Q)
 end
 figure
 plot(Q,Kt,'.:')
-k=-30
-q
-k_star(q,k)
-k_st=fminsearch(@(x)k_star(q,x),-10)
+k_st=fminsearch(@(x)k_star(q,x),-25)
 figure(1)
 
-c_infl=get_roots(@(x)ddp_symmetric(x,q,k_st),0,0.5,0.001,1e-12);
+c_infl=max(get_roots(@(x)ddp_symmetric(x,q,k_st),0,0.5,0.001,1e-12));
 p_infl = conf_fun_sym(c_infl,q,k_st);
 plot(k_st,p_infl,'.r')
 function error = k_star(q,k)
 % function used for finding a line separating continuous and discontinuous
 % phase transitions
-    a_infl = get_roots(@(x)ddp_symmetric(x,q,k),0,0.5,0.001,1e-12);
+    a_infl = max(get_roots(@(x)ddp_symmetric(x,q,k),0,0.5,0.001,1e-12));
+    display(a_infl)
     error = abs(dp_symmetric(a_infl,q,k));
 end
 
