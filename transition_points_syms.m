@@ -31,8 +31,8 @@ clearvars; clc; close all;
 % p = (a-1/2*(2*a)^q)/(indiv_fun(a,k)-1/2*(2*a)^q)
 % dp = diff(p,a)
 
-K=-40:0.1:-10;
-q=6;
+K=-50:0.1:-10;
+q=8;
 p_up = zeros(1,length(K));
 p_low = zeros(1,length(K));
 p_inf = zeros(1,length(K));
@@ -60,7 +60,10 @@ plot(K,p_up)
 hold on
 plot(K,p_low)
 plot(K,4*(q-1)./(4*q-K),'k')
-plot(K,p_inf)
+%plot(K,p_inf)
+xlabel('k')
+ylabel('p')
+title(['q=' num2str(q)])
 
 for i=1:length(p_c)
     dp_s(i)=dp_symmetric(p_c(i),q,K(i));
@@ -82,6 +85,11 @@ figure(1)
 c_infl=max(get_roots(@(x)ddp_symmetric(x,q,k_st),0,0.5,0.001,1e-12));
 p_infl = conf_fun_sym(c_infl,q,k_st);
 plot(k_st,p_infl,'.r')
+
+k_t=fminsearch(@(x)distance_p(q,x),-32);
+p_t= conf_fun_sym(get_roots(@(x)dp_symmetric(x,q,k_t),0,0.5,0.001,1e-12),q,k_t);
+plot(k_t,p_t,'.k')
+
 function error = k_star(q,k)
 % function used for finding a line separating continuous and discontinuous
 % phase transitions
