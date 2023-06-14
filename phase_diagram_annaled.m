@@ -1,9 +1,9 @@
 clearvars; clc; close all;
 
 a=0:0.001:1;
-K=-40:0.1:-10;
+K=-10;
 s=0;
-q=8;
+q=3.1;
 %annealed model
 for i=1:length(K)
     k=K(i);
