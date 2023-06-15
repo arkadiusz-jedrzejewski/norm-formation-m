@@ -9,6 +9,7 @@ function diff = distance_p(q,k, is_annealed, is_symmetric)
         %[val,it]=max(tab_p);
         diff = max(tab_p);
     end
-    pc = 4*(q-1)/(4*q-k);
+    %pc = 4*(q-1)/(4*q-k);
+    pc = get_critical_point(q,k,0,is_annealed,is_symmetric);
     diff = abs(diff - pc);
 end
