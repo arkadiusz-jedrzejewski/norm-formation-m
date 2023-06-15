@@ -1,13 +1,13 @@
-clearvars; clc; close all;
-
-a=0:0.001:1;
-K=-10;
+clearvars; clc; %close all;
+ figure(1)
+a=0:0.0001:1;
+K=-20;
 s=0;
-q=3.1;
+q=4;
 %annealed model
 for i=1:length(K)
     k=K(i);
-    [p,stable] = get_fixed_points(a,q,k,s,true,true);
+    [p,stable] = get_fixed_points(a,q,k,s,true,false);
     stable = logical(stable);
     ps = p;
     ps(~stable)=nan;
@@ -17,10 +17,10 @@ for i=1:length(K)
     hold on
     plot(pu,a,'r')
     title(['q=' num2str(q) ' k=' num2str(k)])
-    xlim([0 0.8])
+    xlim([0 1])
     xlabel('p')
     ylabel('a^*')
     hold off
     drawnow;
-    
+    pause(0.1)
 end
