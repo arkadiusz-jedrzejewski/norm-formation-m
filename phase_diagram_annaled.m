@@ -1,13 +1,13 @@
 clearvars; clc; %close all;
- figure(1)
+ figure(2)
 a=0:0.0001:1;
-K=-20;
+K=-25;
 s=0;
 q=4;
 %annealed model
 for i=1:length(K)
     k=K(i);
-    [p,stable] = get_fixed_points(a,q,k,s,true,false);
+    [p,stable] = get_fixed_points(a,q,k,s,false,false);
     stable = logical(stable);
     ps = p;
     ps(~stable)=nan;
