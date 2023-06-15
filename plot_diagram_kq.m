@@ -3,8 +3,8 @@ function [] = plot_diagram_kq(Q)
     Kst = zeros(1,length(Q));
     
     for i=1:length(Q)
-        Kt(i)=fminsearch(@(x)distance_p(Q(i),x),-32);
-        Kst(i)=fminsearch(@(x)k_star(Q(i),x),-25);
+        Kt(i)=fminsearch(@(x)distance_p(Q(i),x,true,true),-32);
+        Kst(i)=fminsearch(@(x)k_star(Q(i),x,true,true),-25);
     end
     plot(Q,Kt,'.:')
     hold on
