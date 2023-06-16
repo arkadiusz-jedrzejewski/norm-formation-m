@@ -13,7 +13,7 @@ function [] = plot_diagram_kq(Q,is_annealed,is_symmetric)
             k_guess = 5-rand*30;
             display(['q' num2str(Q(i)) ' ' num2str(j)])
             [kst,fval] = fminsearch(@(x)k_star(Q(i),x,is_annealed,is_symmetric),k_guess);
-            if fval < 1e-4
+            if fval < 1e-4 && kst < 4
                 Kst(i) = kst;
                 break;
             else
