@@ -5,8 +5,8 @@ s=0;
 q=4;
 
 subplot(2,2,1)
-k=-30;
-plot_diagram(a,q,k,s,false,false)
+k1=-30;
+plot_diagram(a,q,k1,s,false,false)
 xlim([0, 0.6])
 xlabel('p')
 ylabel('a^*')
@@ -22,8 +22,7 @@ for j=1:1000
         break;
      end
 end
-k=k_st;
-plot_diagram(a,q,k,s,false,false)
+plot_diagram(a,q,k_st,s,false,false)
 xlim([0, 0.6])
 xlabel('p')
 ylabel('a^*')
@@ -31,8 +30,8 @@ title('k=k^*(q)')
 
 
 subplot(2,2,3)
-k=-10;
-plot_diagram(a,q,k,s,false,false)
+k2=-10;
+plot_diagram(a,q,k2,s,false,false)
 xlim([0, 0.6])
 xlabel('p')
 ylabel('a^*')
@@ -40,11 +39,15 @@ title('k>k^*(q)')
 
 subplot(2,2,4)
 k=-50:0.01:4;
-q = -(2*k + ((k - 2).*(k - 4).*(k.^2 + 2*k + 8)).^(1/2) - 8)./(4*(k - 4));
+Q = -(2*k + ((k - 2).*(k - 4).*(k.^2 + 2*k + 8)).^(1/2) - 8)./(4*(k - 4));
 
-plot(q, k,'k')
-
-
+plot(Q, k,'k')
+hold on
+plot([q, q], [-50, 0],':k')
+plot(q,k1,'.k')
+plot(q,k_st,'.k')
+plot(q,k2,'.k')
 xlim([1,8])
+ylim([-40 0])
 xlabel('q')
 ylabel('k^*(q)')
