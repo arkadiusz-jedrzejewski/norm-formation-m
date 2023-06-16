@@ -15,7 +15,14 @@ title('k<k^*(q)')
 plot([0, 0.6], [0.5, 0.5], 'k:')
 
 subplot(2,2,2)
-k=-19.63;
+for j=1:1000
+    k_guess = 5-rand*30;
+    [k_st, fval]=fminsearch(@(x)k_star(q,x, false, false),k_guess);
+    if fval < 1e-4 && k_st < 4
+        break;
+     end
+end
+k=k_st;
 plot_diagram(a,q,k,s,false,false)
 xlim([0, 0.6])
 xlabel('p')
