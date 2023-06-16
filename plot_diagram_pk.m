@@ -17,11 +17,9 @@ function [] = plot_diagram_pk(K, q, is_annealed, is_symmetric)
         if isempty(tab2)
             p_inf_up(i)=nan;
             p_inf_low(i)=nan;
-            %p_c(i)=nan;
         else
             p_inf_up(i)=max(tab2);
             p_inf_low(i)=min(tab2);
-            %p_c(i) = tab2_a(it);
         end
     end
     plot(K,p_up)
@@ -36,10 +34,10 @@ function [] = plot_diagram_pk(K, q, is_annealed, is_symmetric)
     plot(K,p_inf_up,'c')
 
     for j=1:1000
-        k_guess = 5-rand*30;
+        k_guess = 5-rand*min(K);
         [k_st, fval]=fminsearch(@(x)k_star(q,x, is_annealed, is_symmetric),k_guess);
         display(fval)
-        if fval < 1e-4
+        if fval < 1e-4 && k_st < 4
             c_infl=max(get_roots(@(x)ddp_symmetric(x,q,k_st, is_annealed, is_symmetric),0,0.5,0.001,1e-12));
             p_infl = get_fixed_points(c_infl,q,k_st,0,is_annealed, is_symmetric);
             plot(k_st,p_infl,'.r')
@@ -49,16 +47,12 @@ function [] = plot_diagram_pk(K, q, is_annealed, is_symmetric)
     
     
     for j=1:1000
-        k_guess = 5-rand*30;
+        k_guess = 5-rand*min(K);
         [k_t, fval] = fminsearch(@(x)distance_p(q,x, is_annealed, is_symmetric),k_guess);
-        display(j)
-        if fval < 1e-4
+        if fval < 1e-4 && k_t < 4
             p_t= get_fixed_points(get_roots(@(x)dp_symmetric(x,q,k_t, is_annealed, is_symmetric),0,0.5,0.001,1e-12),q,k_t,0,is_annealed, is_symmetric);
             plot(k_t,max(p_t),'.k')
             break;
         end
     end
-%     for i=1:length(p_c)
-%         dp_s(i)=dp_symmetric(p_c(i),q,K(i));
-%     end
 end
