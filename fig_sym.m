@@ -1,6 +1,6 @@
 clearvars; clc; close all;
 
-a=0:0.0001:1;
+a=0:0.001:1;
 s=0;
 q=4;
 
