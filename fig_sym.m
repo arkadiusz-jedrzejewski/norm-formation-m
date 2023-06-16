@@ -13,7 +13,6 @@ ylabel('a^*')
 
 subplot(3,3,6)
 k_t=fminsearch(@(x)distance_p(q,x,true,true),-32)
-p_t= conf_fun_sym(get_roots(@(x)dp_symmetric(x,q,k_t,true,true),0,0.5,0.001,1e-12),q,k_t);
 k=k_t;
 plot_diagram(a,q,k,s,true,true)
 xlim([0.21, 0.3])
@@ -29,7 +28,6 @@ ylabel('a^*')
 
 subplot(3,3,2)
 k_st=fminsearch(@(x)k_star(q,x,true,true),-25)
-c_infl=max(get_roots(@(x)ddp_symmetric(x,q,k_st,true,true),0,0.5,0.001,1e-12));
 k=k_st;
 plot_diagram(a,q,k,s,true,true)
 xlim([0.2, 0.35])
@@ -46,7 +44,7 @@ ylabel('a^*')
 
 subplot(3,3,[4 5 7 8])
 Q=[1.001:0.5:8 8];
-plot_diagram_kq(Q)
+plot_diagram_kq(Q,true,true)
 xlim([min(Q) max(Q)])
 plot([q, q], [-50, -10],':k')
 plot(q,k1,'.k')
