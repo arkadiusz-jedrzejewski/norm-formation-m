@@ -34,9 +34,8 @@ function [] = plot_diagram_pk(K, q, is_annealed, is_symmetric)
     plot(K,p_inf_up,'c')
 
     for j=1:1000
-        k_guess = 5-rand*min(K);
+        k_guess = 5+rand*min(K);
         [k_st, fval]=fminsearch(@(x)k_star(q,x, is_annealed, is_symmetric),k_guess);
-        display(fval)
         if fval < 1e-4 && k_st < 4
             c_infl=max(get_roots(@(x)ddp_symmetric(x,q,k_st, is_annealed, is_symmetric),0,0.5,0.001,1e-12));
             p_infl = get_fixed_points(c_infl,q,k_st,0,is_annealed, is_symmetric);
@@ -47,7 +46,7 @@ function [] = plot_diagram_pk(K, q, is_annealed, is_symmetric)
     
     
     for j=1:1000
-        k_guess = 5-rand*min(K);
+        k_guess = 5+rand*min(K);
         [k_t, fval] = fminsearch(@(x)distance_p(q,x, is_annealed, is_symmetric),k_guess);
         if fval < 1e-4 && k_t < 4
             p_t= get_fixed_points(get_roots(@(x)dp_symmetric(x,q,k_t, is_annealed, is_symmetric),0,0.5,0.001,1e-12),q,k_t,0,is_annealed, is_symmetric);
