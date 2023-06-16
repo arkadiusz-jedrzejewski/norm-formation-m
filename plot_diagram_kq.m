@@ -8,12 +8,17 @@ function [] = plot_diagram_kq(Q,is_annealed,is_symmetric)
         else
             Kt(i) = nan;
         end
-
-        [kst,fval] = fminsearch(@(x)k_star(Q(i),x,is_annealed,is_symmetric),-25);
-        if fval < 1e-4
-            Kst(i) = kst;
-        else
-            Kst(i) = nan;
+        
+        for j=1:1000
+            k_guess = 5-rand*30;
+            display(['q' num2str(Q(i)) ' ' num2str(j)])
+            [kst,fval] = fminsearch(@(x)k_star(Q(i),x,is_annealed,is_symmetric),k_guess);
+            if fval < 1e-4
+                Kst(i) = kst;
+                break;
+            else
+                Kst(i) = nan;
+            end
         end
     end
     plot(Q,Kt,'.:')
