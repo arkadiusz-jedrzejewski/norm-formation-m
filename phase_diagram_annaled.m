@@ -1,9 +1,9 @@
 clearvars; clc; %close all;
  figure(2)
 a=0:0.0001:1;
-K=-25;
+K=3.9;
 s=0;
-q=4;
+q=10;
 %annealed model
 for i=1:length(K)
     k=K(i);
