@@ -40,8 +40,14 @@ title('k>k^*(q)')
 subplot(2,2,4)
 k=-50:0.01:0;
 Q = -(2*k + ((k - 2).*(k - 4).*(k.^2 + 2*k + 8)).^(1/2) - 8)./(4*(k - 4));
+inds = Q >0.5 & Q<8.5;
+Q=Q(inds);
+k=k(inds);
+step=100;
+Q=Q(1:step:end);
+k=k(1:step:end);
 
-plot(Q, k,'k')
+plot(Q, k,'k-')
 hold on
 plot([q, q], [-50, 0],':k')
 plot(q,k1,'.k')
