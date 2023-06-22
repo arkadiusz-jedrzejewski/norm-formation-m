@@ -12,8 +12,6 @@ xlabel('p')
 ylabel('a^*')
 title('k<k^*(q)')
 
-plot([0, 0.2], [0.5, 0.5], 'k:')
-
 subplot(2,2,2)
 for j=1:1000
     k_guess = 5-rand*30;
@@ -38,20 +36,28 @@ ylabel('a^*')
 title('k>k^*(q)')
 
 subplot(2,2,4)
-k=-15:0.01:4;
-Q = -(2.^(1/2).*(-(k - 4).*(k.^3 - 50.*k + 200)).^(1/2) - 10*k + 40)./(4.*(k - 4));
-
-tol = 1e-20;
-idx = abs(imag(Q))<tol;
-plot(Q(idx), k(idx),'k')
-hold on
-
-Q = (10*k + 2^(1/2)*(-(k - 4).*(k.^3 - 50*k + 200)).^(1/2) - 40)./(4*(k - 4));
-
+k=sort([-10:0.25:20, -8.56, -8.42]);
+Q1 = -(2.^(1/2).*(-(k - 4).*(k.^3 - 50.*k + 200)).^(1/2) - 10*k + 40)./(4.*(k - 4));
 tol = 1e-10;
-idx = abs(imag(Q))<tol;
-plot(Q(idx), k(idx),'k')
+idx1 = abs(imag(Q1))<tol;
+Q1s = Q1(idx1);
+K1s = k(idx1);
 
+Q2 = (10*k + 2^(1/2)*(-(k - 4).*(k.^3 - 50*k + 200)).^(1/2) - 40)./(4*(k - 4));
+idx2 = abs(imag(Q2))<tol;
+Q2s = Q2(idx2);
+K2s = k(idx2);
+
+Q = [Q1s,Q2s];
+[Q,inds] = sort(Q);
+K=[K1s,K2s];
+K=K(inds);
+
+inds = Q>0.5 & Q<12;
+Q=Q(inds);
+K=K(inds);
+plot(Q, K,'k-')
+hold on
 plot([q, q], [-12, 5],':k')
 plot(q,k1,'.k')
 plot(q,k_st,'.k')
