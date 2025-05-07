@@ -1,5 +1,5 @@
 # norm-formation-m
-Matlab scripts to analyze an agent-based model (ABM) used to study the impact of symmetric and nonsymmetric conformity functions on decision-making processes. 
+Matlab scripts used to analyze an agent-based model (ABM) used to study the impact of symmetric and nonsymmetric conformity functions on decision-making processes. 
 The model was used in:
 
 > **Symmetric conformity functions make decision-making processes independent of the distribution of learning strategies**  
